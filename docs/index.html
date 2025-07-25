@@ -70,25 +70,30 @@
   <!-- オープニング画面 -->
   <div id="introScreen" class="screen visible">
     <div class="skip" onclick="skipToMenu()">スキップ &gt;</div>
-    <img src="furuhata.png" alt="オープニング画像" class="opening-image">
-    <h1>暗号の家</h1>
-    <div class="textbox" onclick="nextLine()" id="dialogueBox">……ここは、どこだ？</div>
+    <img src="kansoro.png" alt="オープニング画像" class="opening-image">
+    <h1>警部補　尻穴緩早漏</h1>
+    <div class="textbox" onclick="nextLine()" id="dialogueBox">………</div>
   </div>
 
   <!-- メニュー画面 -->
   <div id="menuScreen" class="screen">
+   <img src="kansouro.png" alt="メニュー画像" class="opening-image">
     <h1>暗号の家 - メニュー</h1>
     <button onclick="startGame()">新しく始める</button>
     <button onclick="howToPlay()">遊び方</button>
-    <button onclick="openCredits()">クレジット</button>
+    <button onclick="openCredits()">ランキング</button>
   </div>
 
   <script>
     const dialogue = [
-      "……ここは、どこだ？",
-      "目が覚めると、薄暗い部屋にいた。",
-      "扉には鍵がかかっている……番号を入れろということか？",
-      "何かヒントがあるはずだ……。"
+        "……",
+      "アナルに異物を入れてはいけません",
+      "身体の不調や非常事態になりかねません",
+      "お医者さんの３割は 直腸異物の",
+      "撤去手術をやった経験があるようで",
+      "……ン～ッフッフッフッ",
+    "もう少し早く知りたかったものです",
+    "私のお尻の穴は手遅れのようで……",
     ];
     let dialogueIndex = 0;
 
@@ -124,7 +129,7 @@
     }
 
     function openCredits() {
-      alert("制作：あなたの名前またはチーム名");
+      alert("優秀な警部ユーザーランキング");
     }
   </script>
 </body>

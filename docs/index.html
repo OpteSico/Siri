@@ -35,25 +35,31 @@
       margin-bottom: 1rem;
       animation: fadeIn 2s ease;
     }
-    p {
-      font-size: 1.1rem;
-      max-width: 80%;
-      text-align: center;
-      margin-bottom: 2rem;
-      animation: fadeIn 3s ease;
-    }
-    button {
-      padding: 0.8rem 2rem;
-      margin: 0.5rem;
-      background-color: #1a1a1a;
-      border: 1px solid #555;
-      color: white;
-      font-size: 1rem;
-      border-radius: 5px;
+    .skip {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+      color: #ccc;
       cursor: pointer;
+      text-decoration: underline;
     }
-    button:hover {
-      background-color: #333;
+    .textbox {
+      width: 90%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      text-align: center;
+    }
+    .opening-image {
+      max-width: 80%;
+      max-height: 40vh;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
     }
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(20px);}
@@ -64,10 +70,10 @@
 <body>
   <!-- オープニング画面 -->
   <div id="introScreen" class="screen visible">
+    <div class="skip" onclick="skipToMenu()">スキップ &gt;</div>
+    <img src="furuhata.png" alt="オープニング画像" class="opening-image">
     <h1>暗号の家</h1>
-    <p>あなたは記憶を失った状態で目覚め、暗号のかかった扉の前に立っていた。<br>4桁の数字を解き明かして、この家から脱出せよ。</p>
-    <button onclick="goToMenu()">スタート</button>
-    <button onclick="skipToMenu()">スキップ</button>
+    <div class="textbox" onclick="nextLine()" id="dialogueBox">……ここは、どこだ？</div>
   </div>
 
   <!-- メニュー画面 -->
@@ -79,6 +85,23 @@
   </div>
 
   <script>
+    const dialogue = [
+      "……ここは、どこだ？",
+      "目が覚めると、薄暗い部屋にいた。",
+      "扉には鍵がかかっている……番号を入れろということか？",
+      "何かヒントがあるはずだ……。"
+    ];
+    let dialogueIndex = 0;
+
+    function nextLine() {
+      dialogueIndex++;
+      if (dialogueIndex < dialogue.length) {
+        document.getElementById("dialogueBox").innerText = dialogue[dialogueIndex];
+      } else {
+        goToMenu();
+      }
+    }
+
     function goToMenu() {
       const intro = document.getElementById('introScreen');
       intro.classList.add('fade-out');

@@ -52,6 +52,10 @@
       font-size: 1.1rem;
       cursor: pointer;
       text-align: center;
+        /* 既存のスタイルはそのまま */
+  -webkit-tap-highlight-color: transparent; /* モバイルの青いフラッシュを無効化 */
+  outline: none; /* キーボードフォーカスの枠線も非表示 */
+  user-select: none; /* テキスト選択を防止（任意） */
     }
     .opening-image {
       max-width: 80%;

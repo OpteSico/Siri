@@ -97,6 +97,25 @@
   </style>
 </head>
 <body>
+    <!-- BGM 音声プレイヤー（非表示） -->
+  <audio id="bgm" src="sounds/bgm.mp3" loop preload="auto"></audio>
+
+  <!-- ミュート切替ボタン -->
+  <div id="muteToggle" onclick="toggleMute()" style="
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1000;
+    display: none; /* 最初は非表示、メニュー表示時に出す */
+  ">
+    🔊 ON
+  </div>
   <!-- オープニング画面 -->
   <div id="introScreen" class="screen visible">
     <div class="skip" onclick="skipToMenu()">スキップ &gt;</div>

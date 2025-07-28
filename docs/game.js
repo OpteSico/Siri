@@ -1,3 +1,8 @@
+function startGame() {
+    document.getElementById('nameScreen').classList.remove('visible');
+    document.getElementById('gameScreen').classList.add('visible');
+  }
+
 // ランダムに4桁の答えを生成
 const answer = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10));
 

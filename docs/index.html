@@ -53,10 +53,9 @@
       font-size: 1.1rem;
       cursor: pointer;
       text-align: center;
-        /* 既存のスタイルはそのまま */
-  -webkit-tap-highlight-color: transparent; /* モバイルの青いフラッシュを無効化 */
-  outline: none; /* キーボードフォーカスの枠線も非表示 */
-  user-select: none; /* テキスト選択を防止（任意） */
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+      user-select: none;
     }
     .opening-image {
       max-width: 80%;
@@ -69,35 +68,33 @@
       from {opacity: 0; transform: translateY(20px);}
       to {opacity: 1; transform: translateY(0);}
     }
-  button {
-    background: linear-gradient(to bottom, #ffca28, #f57c00);
-    color: #222;
-    border: none;
-    padding: 1rem 2rem;
-    margin: 0.5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
-    width: 80%;
-    max-width: 300px;
-  }
-
-  button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-  }
-
-  button:active {
-    transform: scale(0.98);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
+    button {
+      background: linear-gradient(to bottom, #ffca28, #f57c00);
+      color: #222;
+      border: none;
+      padding: 1rem 2rem;
+      margin: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.3s ease;
+      width: 80%;
+      max-width: 300px;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+    button:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
-    <!-- BGM 音声プレイヤー（非表示） -->
+  <!-- BGM 音声プレイヤー（非表示） -->
   <audio id="bgm" src="FHOP.mp3" loop preload="auto"></audio>
 
   <!-- ミュート切替ボタン -->
@@ -112,10 +109,11 @@
     border-radius: 6px;
     cursor: pointer;
     z-index: 1000;
-    display: none; /* 最初は非表示、メニュー表示時に出す */
+    display: none;
   ">
     🔊 ON
   </div>
+
   <!-- オープニング画面 -->
   <div id="introScreen" class="screen visible">
     <div class="skip" onclick="skipToMenu()">スキップ &gt;</div>
@@ -125,67 +123,12 @@
 
   <!-- メニュー画面 -->
   <div id="menuScreen" class="screen">
-   <img src="furuhata.png" alt="メニュー画像" class="opening-image">
+    <img src="furuhata.png" alt="メニュー画像" class="opening-image">
     <button onclick="startGame()">新しく始める</button>
     <button onclick="howToPlay()">遊び方</button>
     <button onclick="openCredits()">ランキング</button>
   </div>
 
-  <script>
-  const dialogue = [
-    "……",
-    "アナルに異物を入れてはいけません",
-    "身体の不調や非常事態になりかねません",
-    "お医者さんの３割は 直腸異物の",
-    "撤去手術をやった経験があるようで",
-    "……ン～ッフッフッフッ",
-    "もう少し早く知りたかったものです",
-    "私のお尻の穴は手遅れのようで……",
-  ];
-  let dialogueIndex = 0;
-
-  function nextLine() {
-    dialogueIndex++;
-    if (dialogueIndex < dialogue.length) {
-      document.getElementById("dialogueBox").innerText = dialogue[dialogueIndex];
-    } else {
-      goToMenu();
-    }
-  }
-
-  function goToMenu() {
-    const intro = document.getElementById("introScreen");
-    intro.classList.add("fade-out");
-    setTimeout(() => {
-      intro.classList.remove("visible");
-      document.getElementById("menuScreen").classList.add("visible");
-      muteBtn.style.display = "block";
-      if (!isMuted) {
-        bgm.play().catch(err => console.log("BGM再生エラー:", err));
-      }
-    }, 1000);
-  }
-
-  function skipToMenu() {
-    document.getElementById("introScreen").classList.remove("visible");
-    document.getElementById("menuScreen").classList.add("visible");
-    muteBtn.style.display = "block";
-    if (!isMuted) {
-      bgm.play().catch(err => console.log("BGM再生エラー:", err));
-    }
-  }
-
-  function startGame() {
-    alert("ゲームスタート！（次の画面はまだ未実装）");
-  }
-
-  function howToPlay() {
-    alert("4桁の暗号をNPCの証言を元に推理してください。");
-  }
-
-  function openCredits() {
-    alert("優秀な警部ユーザーランキング");
-  }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

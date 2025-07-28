@@ -46,10 +46,11 @@ function getHint(npcNumber) {
   inquiries++;
 }
 
-// 答えと照合
 function submitGuess() {
-  const sliders = document.querySelectorAll('.slider');
-  const guess = Array.from(sliders, s => parseInt(s.value, 10));
+  const guess = [];
+  for (let i = 0; i < 4; i++) {
+    guess.push(parseInt(document.getElementById(`digit-${i}`).innerText, 10));
+  }
 
   if (guess.every((num, i) => num === answer[i])) {
     alert("正解！おめでとうございます！");
@@ -61,6 +62,7 @@ function submitGuess() {
     window.location.href = 'index.html';
   }
 }
+
 
 // ランキング保存
 function saveRanking() {

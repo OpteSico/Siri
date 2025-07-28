@@ -28,13 +28,22 @@
       border-radius: 10px;
       cursor: pointer;
     }
+    .skip {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+      color: #ccc;
+      cursor: pointer;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <!-- プロローグ画面 -->
   <div id="prologueScreen" class="screen visible">
-    <p>事件の概要...</p>
-    <button onclick="skipPrologue()">スキップ</button>
+    <div class="skip" onclick="skipPrologue()">スキップ &gt;</div>
+    <div id="prologueText" onclick="nextPrologueLine()">クリックして進む</div>
   </div>
 
   <!-- ゲーム画面 -->
@@ -71,10 +80,34 @@
 
   <script src="game.js"></script>
   <script>
+    const prologueLines = [
+      "……",
+      "えー……夜分にすみません……",
+      "皆さんにお集まり頂いたのは…4桁の暗号を解くためなんです…",
+      "私の部下であるこの巡査が",
+      "今から聞き込み致しますので…しばしお付き合いを…"
+    ];
+    let prologueIndex = 0;
+
+    function nextPrologueLine() {
+      const box = document.getElementById('prologueText');
+      if (prologueIndex < prologueLines.length) {
+        box.innerText = prologueLines[prologueIndex];
+        prologueIndex++;
+      } else {
+        skipPrologue();
+      }
+    }
+
     function skipPrologue() {
       document.getElementById('prologueScreen').classList.remove('visible');
       document.getElementById('gameScreen').classList.add('visible');
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('prologueText').innerText = prologueLines[0];
+      prologueIndex = 1;
+    });
   </script>
 </body>
 </html>

@@ -1,28 +1,24 @@
 // 初期設定
-const bgm = document.getElementById("bgm");
-const muteBtn = document.getElementById("muteToggle");
-
-let isMuted = localStorage.getItem("bgmMuted") === "true";
-updateMuteUI();
-
-function toggleMute() {
-  isMuted = !isMuted;
-  localStorage.setItem("bgmMuted", isMuted);
+  const bgm = document.getElementById("bgm");
+  const muteBtn = document.getElementById("muteToggle");
+  let isMuted = localStorage.getItem("bgmMuted") === "true";
   updateMuteUI();
 
-  if (!isMuted) {
-    bgm.play().catch(e => console.warn("BGM再生エラー:", e));
-  } else {
-    bgm.pause();
+  function toggleMute() {
+    isMuted = !isMuted;
+    localStorage.setItem("bgmMuted", isMuted);
+    updateMuteUI();
   }
-}
 
-function updateMuteUI() {
-  muteBtn.innerText = isMuted ? "🔇 OFF" : "🔊 ON";
-  if (isMuted) {
-    bgm.pause();
+  function updateMuteUI() {
+    if (isMuted) {
+      bgm.pause();
+      muteBtn.innerText = "🔇 OFF";
+    } else {
+      bgm.play().catch(err => console.log("BGM再生エラー:", err));
+      muteBtn.innerText = "🔊 ON";
+    }
   }
-}
 
 // メニュー移行時にBGM再生とボタン表示
 function goToMenu() {

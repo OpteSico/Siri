@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const muteBtn = document.getElementById("muteToggle");
   let isMuted = localStorage.getItem("bgmMuted") === "true";
 
+    // ✅ 追加：再生開始位置を33秒に設定
+  bgm.currentTime = 33;
+  
   updateMuteUI();
 
   function toggleMute() {

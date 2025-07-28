@@ -20,8 +20,14 @@ function nextLine() {
 }
 
 function startGame() {
-  alert("ゲームスタート！（次の画面はまだ未実装）");
+  // メニューのBGMを一旦停止
+  const bgm = document.getElementById('bgm');
+  if (bgm) bgm.pause();
+
+  // ゲーム画面に遷移
+  window.location.href = "game.html";
 }
+
 
 function howToPlay() {
   alert("4桁の暗号をNPCの証言を元に推理してください。");

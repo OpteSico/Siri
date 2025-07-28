@@ -11,23 +11,19 @@
       background-color: #1a1a1a;
       color: white;
       text-align: center;
+      overflow: hidden;
     }
-    .screen { display: none; height: 100vh; justify-content: center; align-items: center; flex-direction: column; }
-    .visible { display: flex; }
-    .npc { margin: 1rem; padding: 1rem; background: #333; border-radius: 8px; }
-    .slider { width: 80%; }
-    #memo { display: none; width: 90%; height: 100px; margin: 1rem auto; }
-    button {
-      background: linear-gradient(to bottom, #ffca28, #f57c00);
-      color: #222;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      margin: 0.5rem;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 10px;
-      cursor: pointer;
+    .screen { 
+      display: none; 
+      height: 100vh; 
+      width: 100vw;
+      justify-content: center; 
+      align-items: center; 
+      flex-direction: column; 
+      opacity: 0; 
+      transition: opacity 1s ease; 
     }
+    .visible { display: flex; opacity: 1; }
     .skip {
       position: absolute;
       top: 1rem;
@@ -37,6 +33,49 @@
       cursor: pointer;
       text-decoration: underline;
     }
+    /* NPC配置 */
+    #npcArea {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 1rem;
+      max-width: 90%;
+      margin: 1rem auto;
+    }
+    .npc {
+      background: #333;
+      border-radius: 8px;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    }
+    /* 南京錠スタイルの数字スライダー */
+    .lock-container {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+    .digit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 0.5rem;
+    }
+    .digit-value {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+    }
+    button {
+      background: linear-gradient(to bottom, #ffca28, #f57c00);
+      color: #222;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      margin: 0.2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #memo { display: none; width: 90%; height: 80px; margin: 1rem auto; }
   </style>
 </head>
 <body>
@@ -46,40 +85,31 @@
     <div id="prologueText" onclick="nextPrologueLine()">クリックして進む</div>
   </div>
 
+  <!-- プレイヤーネーム入力画面 -->
+  <div id="nameScreen" class="screen">
+    <h2>プレイヤー名を入力してください</h2>
+    <input type="text" id="playerNameInput">
+    <button onclick="startGame()">決定</button>
+  </div>
+
   <!-- ゲーム画面 -->
   <div id="gameScreen" class="screen">
     <h2>推理ゲーム</h2>
-    <label>
-      プレイヤー名：
-      <input type="text" id="playerName" onblur="saveName()">
-    </label>
     <div id="npcArea">
-      <div class="npc">
-        <p id="npc1Hint">NPC1のヒント</p>
-        <button onclick="getHint(1)">聞き込み</button>
-      </div>
-      <div class="npc">
-        <p id="npc2Hint">NPC2のヒント</p>
-        <button onclick="getHint(2)">聞き込み</button>
-      </div>
-      <div class="npc">
-        <p id="npc3Hint">NPC3のヒント</p>
-        <button onclick="getHint(3)">聞き込み</button>
-      </div>
+      <div class="npc"><p id="npc1Hint">NPC1のヒント</p><button onclick="getHint(1)">聞き込み</button></div>
+      <div class="npc"><p id="npc2Hint">NPC2のヒント</p><button onclick="getHint(2)">聞き込み</button></div>
+      <div class="npc"><p id="npc3Hint">NPC3のヒント</p><button onclick="getHint(3)">聞き込み</button></div>
     </div>
-    <div>
-      <input type="range" min="0" max="9" value="0" class="slider">
-      <input type="range" min="0" max="9" value="0" class="slider">
-      <input type="range" min="0" max="9" value="0" class="slider">
-      <input type="range" min="0" max="9" value="0" class="slider">
+    <div class="lock-container" id="lock">
+      <!-- 4つの数字ダイヤル -->
     </div>
     <button onclick="submitGuess()">提出</button>
     <button onclick="toggleMemo()">メモ</button>
     <textarea id="memo" placeholder="メモ..."></textarea>
   </div>
 
-  <script src="game.js"></script>
   <script>
+    /* プロローグ処理 */
     const prologueLines = [
       "……",
       "えー……夜分にすみません……",
@@ -95,19 +125,63 @@
         box.innerText = prologueLines[prologueIndex];
         prologueIndex++;
       } else {
-        skipPrologue();
+        endPrologue();
       }
     }
 
-    function skipPrologue() {
+    function skipPrologue() { endPrologue(); }
+
+    function endPrologue() {
       document.getElementById('prologueScreen').classList.remove('visible');
-      document.getElementById('gameScreen').classList.add('visible');
+      const nameScreen = document.getElementById('nameScreen');
+      nameScreen.classList.add('visible');
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('prologueText').innerText = prologueLines[0];
       prologueIndex = 1;
+      setupLock();
     });
+
+    /* プレイヤーネーム設定 */
+    function startGame() {
+      const name = document.getElementById('playerNameInput').value || '名無し';
+      localStorage.setItem('playerName', name);
+      document.getElementById('nameScreen').classList.remove('visible');
+      const gameScreen = document.getElementById('gameScreen');
+      gameScreen.classList.add('visible');
+    }
+
+    /* 南京錠風スライダーのセットアップ */
+    function setupLock() {
+      const lock = document.getElementById('lock');
+      for (let i = 0; i < 4; i++) {
+        const digit = document.createElement('div');
+        digit.className = 'digit';
+        digit.innerHTML = `
+          <button onclick="changeDigit(${i}, 1)">▲</button>
+          <div class="digit-value" id="digit-${i}">0</div>
+          <button onclick="changeDigit(${i}, -1)">▼</button>
+        `;
+        lock.appendChild(digit);
+      }
+    }
+
+    function changeDigit(index, delta) {
+      const digitElem = document.getElementById(`digit-${index}`);
+      let value = parseInt(digitElem.innerText);
+      value = (value + delta + 10) % 10;
+      digitElem.innerText = value;
+    }
+
+    function toggleMemo() {
+      const memo = document.getElementById('memo');
+      memo.style.display = (memo.style.display === 'none') ? 'block' : 'none';
+    }
+
+    /* ダミー関数 */
+    function getHint(npc) { alert("NPC" + npc + " 追加ヒント"); }
+    function submitGuess() { alert("提出！"); }
   </script>
 </body>
 </html>

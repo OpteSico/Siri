@@ -132,52 +132,60 @@
   </div>
 
   <script>
-    const dialogue = [
-        "……",
-      "アナルに異物を入れてはいけません",
-      "身体の不調や非常事態になりかねません",
-      "お医者さんの３割は 直腸異物の",
-      "撤去手術をやった経験があるようで",
-      "……ン～ッフッフッフッ",
+  const dialogue = [
+    "……",
+    "アナルに異物を入れてはいけません",
+    "身体の不調や非常事態になりかねません",
+    "お医者さんの３割は 直腸異物の",
+    "撤去手術をやった経験があるようで",
+    "……ン～ッフッフッフッ",
     "もう少し早く知りたかったものです",
     "私のお尻の穴は手遅れのようで……",
-    ];
-    let dialogueIndex = 0;
+  ];
+  let dialogueIndex = 0;
 
-    function nextLine() {
-      dialogueIndex++;
-      if (dialogueIndex < dialogue.length) {
-        document.getElementById("dialogueBox").innerText = dialogue[dialogueIndex];
-      } else {
-        goToMenu();
+  function nextLine() {
+    dialogueIndex++;
+    if (dialogueIndex < dialogue.length) {
+      document.getElementById("dialogueBox").innerText = dialogue[dialogueIndex];
+    } else {
+      goToMenu();
+    }
+  }
+
+  function goToMenu() {
+    const intro = document.getElementById("introScreen");
+    intro.classList.add("fade-out");
+    setTimeout(() => {
+      intro.classList.remove("visible");
+      document.getElementById("menuScreen").classList.add("visible");
+      muteBtn.style.display = "block";
+      if (!isMuted) {
+        bgm.play().catch(err => console.log("BGM再生エラー:", err));
       }
-    }
+    }, 1000);
+  }
 
-    function goToMenu() {
-      const intro = document.getElementById('introScreen');
-      intro.classList.add('fade-out');
-      setTimeout(() => {
-        intro.classList.remove('visible');
-        document.getElementById('menuScreen').classList.add('visible');
-      }, 1000);
+  function skipToMenu() {
+    document.getElementById("introScreen").classList.remove("visible");
+    document.getElementById("menuScreen").classList.add("visible");
+    muteBtn.style.display = "block";
+    if (!isMuted) {
+      bgm.play().catch(err => console.log("BGM再生エラー:", err));
     }
+  }
 
-    function skipToMenu() {
-      document.getElementById('introScreen').classList.remove('visible');
-      document.getElementById('menuScreen').classList.add('visible');
-    }
+  function startGame() {
+    alert("ゲームスタート！（次の画面はまだ未実装）");
+  }
 
-    function startGame() {
-      alert("ゲームスタート！（次の画面はまだ未実装）");
-    }
+  function howToPlay() {
+    alert("4桁の暗号をNPCの証言を元に推理してください。");
+  }
 
-    function howToPlay() {
-      alert("4桁の暗号をNPCの証言を元に推理してください。");
-    }
-
-    function openCredits() {
-      alert("優秀な警部ユーザーランキング");
-    }
+  function openCredits() {
+    alert("優秀な警部ユーザーランキング");
+  }
   </script>
 </body>
 </html>

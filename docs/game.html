@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>推理ゲーム</title>
+  <title>尻穴緩早漏の事件簿</title>
   <style>
     body {
       margin: 0;
@@ -24,20 +24,10 @@
       transition: opacity 1s ease; 
     }
     .visible { display: flex; opacity: 1; }
-    .skip {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 0.9rem;
-      color: #ccc;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    /* NPC配置 */
+
     #npcArea {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, auto);
       gap: 1rem;
       max-width: 90%;
       margin: 1rem auto;
@@ -47,8 +37,9 @@
       border-radius: 8px;
       padding: 0.5rem;
       font-size: 0.9rem;
+      min-height: 60px;
     }
-    /* 南京錠スタイルの数字スライダー */
+
     .lock-container {
       display: flex;
       justify-content: center;
@@ -63,7 +54,12 @@
     .digit-value {
       font-size: 2rem;
       margin: 0.5rem 0;
+      transition: transform 0.2s ease;
     }
+    .spin {
+      transform: rotateX(360deg);
+    }
+
     button {
       background: linear-gradient(to bottom, #ffca28, #f57c00);
       color: #222;
@@ -75,41 +71,72 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    #memo { display: none; width: 90%; height: 80px; margin: 1rem auto; }
+
+    #memo { 
+      display: none; 
+      width: 95%; 
+      height: 120px; 
+      margin: 1rem auto; 
+      background: white; 
+      color: black; 
+      border-radius: 6px; 
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
   <!-- プロローグ画面 -->
   <div id="prologueScreen" class="screen visible">
-    <div class="skip" onclick="skipPrologue()">スキップ &gt;</div>
     <div id="prologueText" onclick="nextPrologueLine()">クリックして進む</div>
+    <div class="skip" onclick="skipPrologue()">スキップ &gt;</div>
   </div>
 
-  <!-- プレイヤーネーム入力画面 -->
+  <!-- 名前入力画面 -->
   <div id="nameScreen" class="screen">
-    <h2>プレイヤー名を入力してください</h2>
-    <input type="text" id="playerNameInput">
-    <button onclick="startGame()">決定</button>
+    <h2>プレイヤー名を入力</h2>
+    <input type="text" id="playerName">
+    <button onclick="saveName(); startGame();">決定</button>
   </div>
 
   <!-- ゲーム画面 -->
   <div id="gameScreen" class="screen">
     <h2>推理ゲーム</h2>
     <div id="npcArea">
-      <div class="npc"><p id="npc1Hint">NPC1のヒント</p><button onclick="getHint(1)">聞き込み</button></div>
-      <div class="npc"><p id="npc2Hint">NPC2のヒント</p><button onclick="getHint(2)">聞き込み</button></div>
-      <div class="npc"><p id="npc3Hint">NPC3のヒント</p><button onclick="getHint(3)">聞き込み</button></div>
+      <div class="npc"><p id="npc1Hint"></p><button onclick="getHint(1)">聞き込み</button></div>
+      <div class="npc"><p id="npc2Hint"></p><button onclick="getHint(2)">聞き込み</button></div>
+      <div class="npc"><p id="npc3Hint"></p><button onclick="getHint(3)">聞き込み</button></div>
     </div>
     <div class="lock-container" id="lock">
-      <!-- 4つの数字ダイヤル -->
+      <!-- 4つの数字 -->
+      <div class="digit">
+        <button onclick="changeDigit(0, 1)">▲</button>
+        <div class="digit-value" id="digit-0">0</div>
+        <button onclick="changeDigit(0, -1)">▼</button>
+      </div>
+      <div class="digit">
+        <button onclick="changeDigit(1, 1)">▲</button>
+        <div class="digit-value" id="digit-1">0</div>
+        <button onclick="changeDigit(1, -1)">▼</button>
+      </div>
+      <div class="digit">
+        <button onclick="changeDigit(2, 1)">▲</button>
+        <div class="digit-value" id="digit-2">0</div>
+        <button onclick="changeDigit(2, -1)">▼</button>
+      </div>
+      <div class="digit">
+        <button onclick="changeDigit(3, 1)">▲</button>
+        <div class="digit-value" id="digit-3">0</div>
+        <button onclick="changeDigit(3, -1)">▼</button>
+      </div>
     </div>
     <button onclick="submitGuess()">提出</button>
     <button onclick="toggleMemo()">メモ</button>
     <textarea id="memo" placeholder="メモ..."></textarea>
   </div>
 
+  <script src="game.js"></script>
   <script>
-    /* プロローグ処理 */
     const prologueLines = [
       "……",
       "えー……夜分にすみません……",
@@ -122,49 +149,15 @@
     function nextPrologueLine() {
       const box = document.getElementById('prologueText');
       if (prologueIndex < prologueLines.length) {
-        box.innerText = prologueLines[prologueIndex];
-        prologueIndex++;
+        box.innerText = prologueLines[prologueIndex++];
       } else {
         endPrologue();
       }
     }
-
     function skipPrologue() { endPrologue(); }
-
     function endPrologue() {
       document.getElementById('prologueScreen').classList.remove('visible');
-      const nameScreen = document.getElementById('nameScreen');
-      nameScreen.classList.add('visible');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('prologueText').innerText = prologueLines[0];
-      prologueIndex = 1;
-      setupLock();
-    });
-
-    /* プレイヤーネーム設定 */
-    function startGame() {
-      const name = document.getElementById('playerNameInput').value || '名無し';
-      localStorage.setItem('playerName', name);
-      document.getElementById('nameScreen').classList.remove('visible');
-      const gameScreen = document.getElementById('gameScreen');
-      gameScreen.classList.add('visible');
-    }
-
-    /* 南京錠風スライダーのセットアップ */
-    function setupLock() {
-      const lock = document.getElementById('lock');
-      for (let i = 0; i < 4; i++) {
-        const digit = document.createElement('div');
-        digit.className = 'digit';
-        digit.innerHTML = `
-          <button onclick="changeDigit(${i}, 1)">▲</button>
-          <div class="digit-value" id="digit-${i}">0</div>
-          <button onclick="changeDigit(${i}, -1)">▼</button>
-        `;
-        lock.appendChild(digit);
-      }
+      document.getElementById('nameScreen').classList.add('visible');
     }
 
     function changeDigit(index, delta) {
@@ -172,16 +165,9 @@
       let value = parseInt(digitElem.innerText);
       value = (value + delta + 10) % 10;
       digitElem.innerText = value;
+      digitElem.classList.add('spin');
+      setTimeout(() => digitElem.classList.remove('spin'), 200);
     }
-
-    function toggleMemo() {
-      const memo = document.getElementById('memo');
-      memo.style.display = (memo.style.display === 'none') ? 'block' : 'none';
-    }
-
-    /* ダミー関数 */
-    function getHint(npc) { alert("NPC" + npc + " 追加ヒント"); }
-    function submitGuess() { alert("提出！"); }
   </script>
 </body>
 </html>

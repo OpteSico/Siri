@@ -2,7 +2,6 @@
 const bgm = document.getElementById("bgm");
 const muteBtn = document.getElementById("muteToggle");
 
-// ミュート状態を localStorage に保存・取得
 let isMuted = localStorage.getItem("bgmMuted") === "true";
 updateMuteUI();
 
@@ -10,28 +9,31 @@ function toggleMute() {
   isMuted = !isMuted;
   localStorage.setItem("bgmMuted", isMuted);
   updateMuteUI();
-}
 
-function updateMuteUI() {
-  if (isMuted) {
-    bgm.pause();
-    muteBtn.innerText = "🔇 OFF";
+  if (!isMuted) {
+    bgm.play().catch(e => console.warn("BGM再生エラー:", e));
   } else {
-    bgm.play();
-    muteBtn.innerText = "🔊 ON";
+    bgm.pause();
   }
 }
 
-// オープニングからメニューへ移行時にBGM再生
+function updateMuteUI() {
+  muteBtn.innerText = isMuted ? "🔇 OFF" : "🔊 ON";
+  if (isMuted) {
+    bgm.pause();
+  }
+}
+
+// メニュー移行時にBGM再生とボタン表示
 function goToMenu() {
   const intro = document.getElementById('introScreen');
   intro.classList.add('fade-out');
   setTimeout(() => {
     intro.classList.remove('visible');
     document.getElementById('menuScreen').classList.add('visible');
-    muteBtn.style.display = 'block'; // ミュートボタンを表示
+    muteBtn.style.display = 'block';
     if (!isMuted) {
-      bgm.play();
+      bgm.play().catch(e => console.warn("BGM再生エラー:", e));
     }
   }, 1000);
 }
@@ -41,6 +43,6 @@ function skipToMenu() {
   document.getElementById('menuScreen').classList.add('visible');
   muteBtn.style.display = 'block';
   if (!isMuted) {
-    bgm.play();
+    bgm.play().catch(e => console.warn("BGM再生エラー:", e));
   }
 }

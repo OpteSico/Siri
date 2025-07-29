@@ -2,6 +2,7 @@
   body {
     margin: 0;
     padding: 0;
+    font-family: sans-serif;
   }
 
   .screen {
@@ -9,48 +10,54 @@
     flex-direction: column;
     justify-content: flex-start;
     min-height: 100vh;
-    padding: 0.5rem 0.8rem;
+    padding: 0.8rem 1rem;
     box-sizing: border-box;
   }
 
   h2 {
-    font-size: 1.4rem;
-    margin: 0.6rem 0 0.3rem 0;
+    font-size: 1.3rem;
+    margin: 0.6rem 0 0.4rem 0;
+    text-align: center;
   }
 
   .lock-container {
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.6rem;
-    margin: 0.5rem 0 0.2rem 0;
+    gap: 0.8rem;
+    margin: 0.6rem 0 0.3rem 0;
     width: 100%;
   }
 
   .digit {
-    width: 52px;
+    width: 44px;  /* 少し小さめ */
     height: auto;
   }
 
   .digit-select {
-    width: 100%;
-    height: 70px; /* ← 小さくしすぎず保持 */
-    font-size: 1.9rem;
+    width: 70px; /* 固定幅で見やすく */
+    height: 60px;
+    font-size: 1.6rem;
+    text-align: center;
   }
 
   .dial-digit {
-    font-size: 2rem;
-    padding: 0.3rem 0;
+    font-size: 1.8rem;
+    padding: 0.4rem 0;
+    line-height: 1.2;
   }
 
   button {
-    font-size: 1rem;
-    padding: 0.4rem 0.8rem;
-    margin: 0.3rem auto;
-    width: 90%;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    margin: 0.4rem auto;
+    width: 70%; /* 横幅縮小 */
+    border-radius: 8px; /* 親指操作に優しい */
   }
 
   .stats-mini {
-    font-size: 0.75rem;
-    margin: 0.2rem 0;
+    font-size: 0.8rem;
+    margin: 0.3rem 0;
+    text-align: center;
   }
 }

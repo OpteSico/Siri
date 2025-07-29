@@ -1,25 +1,12 @@
-// game.js 完全版
+// game.js
 
 const answer = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10));
 let allHints = [];
 const npcHints = [[], [], []];
 let inquiries = 0;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const savedName = localStorage.getItem('playerName') || '';
-  document.getElementById('playerName').value = savedName;
-});
-
-function saveName() {
-  const name = document.getElementById('playerName').value.trim();
-  if (name) {
-    localStorage.setItem('playerName', name);
-    alert("プレイヤー名を保存しました");
-  }
-}
-
 function startGame() {
-  document.getElementById('nameScreen').classList.remove('visible');
+  document.getElementById('menuScreen').classList.remove('visible');
   document.getElementById('gameScreen').classList.add('visible');
   allHints = generateHints(answer);
 
@@ -67,13 +54,6 @@ function getHint(npcNumber) {
   appendHintLog(npcNumber, hint);
 }
 
-function drawHint() {
-  const used = npcHints.flat();
-  const available = allHints.filter(h => !used.includes(h));
-  if (available.length === 0) return "もうヒントはないようだ。";
-  return available[Math.floor(Math.random() * available.length)];
-}
-
 function appendHintLog(npc, hint) {
   const logArea = document.getElementById('hintLog');
   const entry = document.createElement('div');
@@ -87,52 +67,68 @@ function submitGuess() {
     guess.push(parseInt(document.getElementById(`digit-${i}`).innerText));
   }
 
-  const isCorrect = guess.every((num, i) => num === answer[i]);
-  showResult(isCorrect);
-  if (isCorrect) saveRanking();
+  if (guess.every((num, i) => num === answer[i])) {
+    showResult(true);
+    saveRanking();
+  } else {
+    showResult(false);
+    saveRanking();
+  }
 }
 
 function showResult(success) {
   const modal = document.getElementById('resultModal');
-  const image = document.getElementById('resultImage');
+  const img = document.getElementById('resultImage');
   const message = document.getElementById('resultMessage');
-  const answerDisplay = document.getElementById('correctAnswerDisplay');
-
-  if (success) {
-    image.src = "congrats.png";
-    message.innerText = "おめでとうございます！正解です！";
-    answerDisplay.innerText = `ヒント使用数: ${inquiries}`;
-  } else {
-    image.src = "gameover.png";
-    message.innerText = "ゲームオーバー！";
-    answerDisplay.innerText = `正解は ${answer.join('')} でした。`;
-  }
+  const correct = document.getElementById('correctAnswerDisplay');
 
   modal.style.display = 'flex';
+  if (success) {
+    img.src = 'clear.png';
+    message.innerText = '🎉 おめでとうございます！ 🎉';
+    correct.innerText = '';
+  } else {
+    img.src = 'gameover.png';
+    message.innerText = '💥 ゲームオーバー 💥';
+    correct.innerText = `正解は ${answer.join('')} でした`;
+  }
 }
 
 function returnToMenu() {
-  document.getElementById('resultModal').style.display = 'none';
   window.location.href = 'index.html';
 }
 
 function saveRanking() {
-  const name = localStorage.getItem('playerName') || '名無しさん';
+  const name = 'プレイヤー';
   const rankingData = JSON.parse(localStorage.getItem('ranking')) || [];
   rankingData.push({ name, inquiries });
+  localStorage.setItem('ranking', JSON.stringify(rankingData));
+}
+
+function openRanking() {
+  const modal = document.getElementById('rankingModal');
+  const list = document.getElementById('rankingList');
+  list.innerHTML = '';
+
+  const rankingData = JSON.parse(localStorage.getItem('ranking')) || [];
   rankingData.sort((a, b) => a.inquiries - b.inquiries);
-  localStorage.setItem('ranking', JSON.stringify(rankingData.slice(0, 10)));
+  const top10 = rankingData.slice(0, 10);
+
+  top10.forEach((entry, index) => {
+    const li = document.createElement('li');
+    li.innerText = `${index + 1}. ${entry.name} - ${entry.inquiries}ヒント`;
+    list.appendChild(li);
+  });
+  modal.style.display = 'flex';
+}
+
+function closeRanking() {
+  document.getElementById('rankingModal').style.display = 'none';
 }
 
 function toggleHintModal() {
   const modal = document.getElementById('hintModal');
   modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-}
-
-function openRanking() {
-  const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-  const list = ranking.map((r, i) => `${i + 1}. ${r.name} - ${r.inquiries}回`).join('\n');
-  alert("=== ランキング ===\n" + list);
 }
 
 function median(arr) {
@@ -168,6 +164,10 @@ function generateHints(ans) {
     `後ろの3桁の和は${b + c + d}です。`,
   ];
   return shuffle(hints).slice(0, 30);
+}
+
+function drawHint() {
+  return allHints.shift() || 'これ以上ヒントはない！';
 }
 
 function shuffle(array) {

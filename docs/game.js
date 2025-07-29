@@ -43,11 +43,12 @@ function getHint(npcNumber) {
 }
 
 function appendHintLog(npc, hint) {
-  const logArea = document.getElementById('hintLog');
+  const list = document.getElementById('hintList');
   const entry = document.createElement('li');
   entry.innerText = `NPC${npc}: ${hint}`;
-  logArea.appendChild(entry);
+  list.appendChild(entry);
 }
+
 
 function submitGuess() {
   const guess = [];

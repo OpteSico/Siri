@@ -34,7 +34,7 @@ function howToPlay() {
 }
 
 function openCredits() {
-  alert("優秀な警部ユーザーランキング");
+  alert("実装クソめんどくさいから、スクショ撮ってシコッターで貼れ");
 }
 
 document.addEventListener('DOMContentLoaded', () => {

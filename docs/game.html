@@ -138,13 +138,29 @@
       <div class="npc"><p id="npc3Hint"></p><button onclick="getHint(3)">聞き込み</button></div>
     </div>
 
-    <div class="lock-container" id="lock">
-<div class="digit" onclick="rotateDigitByTap(0)"><div class="dial-digit" id="digit-0">0</div></div>
-<div class="digit" onclick="rotateDigitByTap(1)"><div class="dial-digit" id="digit-1">0</div></div>
-<div class="digit" onclick="rotateDigitByTap(2)"><div class="dial-digit" id="digit-2">0</div></div>
-<div class="digit" onclick="rotateDigitByTap(3)"><div class="dial-digit" id="digit-3">0</div></div>
+<div class="lock-container" id="lock">
+  <div class="digit">
+    <button onclick="rotateDigit(0, -1)">▲</button>
+    <div class="dial-digit" id="digit-0">0</div>
+    <button onclick="rotateDigit(0, 1)">▼</button>
+  </div>
+  <div class="digit">
+    <button onclick="rotateDigit(1, -1)">▲</button>
+    <div class="dial-digit" id="digit-1">0</div>
+    <button onclick="rotateDigit(1, 1)">▼</button>
+  </div>
+  <div class="digit">
+    <button onclick="rotateDigit(2, -1)">▲</button>
+    <div class="dial-digit" id="digit-2">0</div>
+    <button onclick="rotateDigit(2, 1)">▼</button>
+  </div>
+  <div class="digit">
+    <button onclick="rotateDigit(3, -1)">▲</button>
+    <div class="dial-digit" id="digit-3">0</div>
+    <button onclick="rotateDigit(3, 1)">▼</button>
+  </div>
+</div>
 
-    </div>
 
     <div id="statsDisplay" style="margin: 1rem 0; font-size: 1.1rem;"></div>
 

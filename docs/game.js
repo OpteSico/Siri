@@ -89,7 +89,7 @@ function showClearScreen() {
 
   // メッセージ表示
   document.getElementById('clearMessage').innerText =
-    `${name}さんは ${effectiveInquiries} 回の聞き込みで真相にたどり着きました！`;
+    `${name}さんは ${effectiveInquiries} 回の聞き込みで真相にたどりつきましたか…素晴らしいです…`;
 }
 
 

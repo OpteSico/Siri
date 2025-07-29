@@ -63,15 +63,35 @@ function submitGuess() {
   }
 
   if (guess.every((num, i) => num === answer[i])) {
-    alert("正解！おめでとうございます！");
-    saveRanking();
-    window.location.href = 'index.html';
+    showClearScreen();
+    saveRanking(); // スコア保存
   } else {
     alert(`残念！正解は ${answer.join('')} でした。`);
     saveRanking();
     window.location.href = 'index.html';
   }
 }
+
+function showClearScreen() {
+  // ゲーム画面を非表示
+  document.getElementById('gameScreen').classList.remove('visible');
+
+  // クリア画面を表示
+  const clearScreen = document.getElementById('clearScreen');
+  clearScreen.classList.add('visible');
+
+  // ヒント回数（初期3つを引く）
+  const effectiveInquiries = Math.max(0, inquiries - 3);
+
+  // プレイヤー名
+  const name = localStorage.getItem('playerName') || '名無しさん';
+
+  // メッセージ表示
+  document.getElementById('clearMessage').innerText =
+    `${name}さんは ${effectiveInquiries} 回の聞き込みで真相にたどり着きました！`;
+}
+
+
 
 function saveRanking() {
   const name = localStorage.getItem('playerName') || '名無しさん';

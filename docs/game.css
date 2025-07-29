@@ -1,25 +1,5 @@
-.digit {
-  width: 60px;
-  height: 60px;
-  border: 4px solid #f57c00;
-  border-radius: 50%;
-  background: radial-gradient(#fff8e1, #ffcc80);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  user-select: none;
-  box-shadow: 0 0 10px #f57c00;
-  transition: transform 0.3s ease;
-}
-
 .digit:active {
   transform: rotate(360deg);
-}
-
-.dial-digit {
-  font-weight: bold;
-  color: #222;
 }
 .lock-container {
   display: flex;
@@ -39,6 +19,7 @@
   height: 120px;
   justify-content: space-between;
   box-shadow: 0 0 8px #f57c00;
+   transition: transform 0.3s ease;
 }
 
 .dial-digit {
@@ -47,7 +28,9 @@
   color: #fff;
   padding: 0.3rem 0;
   user-select: none;
+  touch-action: none; /* ← 追加（スマホスワイプ検出の競合防止） */
 }
+
 
 .digit button {
   background: linear-gradient(to bottom, #ffca28, #f57c00);

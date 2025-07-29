@@ -1,49 +1,45 @@
 @media screen and (max-width: 600px) {
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
   .screen {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    padding: 0.5rem 0.5rem 0.6rem;
     box-sizing: border-box;
-    justify-content: flex-start; /* 上に詰める */
   }
 
   .lock-container {
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 0.5rem auto 0.2rem auto;
-    width: 90%;
+    gap: 0.4rem;
+    margin: 0.3rem auto 0;
+    width: 95%;
   }
 
   .digit {
-    width: 45px;
-    height: auto;
+    width: 44px;
+    margin: 0;
   }
 
-  .digit-select {
+  .digit button {
+    font-size: 1rem;
+    padding: 0.2rem;
     width: 100%;
-    height: 60px;
-    font-size: 1.6rem;
+  }
+
+  .dial-digit {
+    font-size: 1.8rem;
+    padding: 0.2rem 0;
   }
 
   .stats-mini {
     font-size: 0.75rem;
-    margin: 0.2rem 0 0.5rem 0;
+    margin: 0.2rem 0;
   }
 
   button {
+    padding: 0.3rem 0.5rem;
     font-size: 0.9rem;
-    padding: 0.3rem 0.6rem;
-    margin: 0.2rem;
-  }
-
-  h2 {
-    font-size: 1.2rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin: 0.2rem auto;
+    width: 90%;
   }
 }

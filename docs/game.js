@@ -33,6 +33,7 @@ function startGame() {
     document.getElementById(`npc${i + 1}Hint`).innerText = firstHint;
     appendHintLog(i + 1, firstHint);
   }
+  inquiries += 3; // 初期ヒント3つ分をカウントしておく
   updateStats();
 }
 

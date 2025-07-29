@@ -131,3 +131,16 @@ function generateHints(ans) {
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
+function toggleHintModal() {
+  const modal = document.getElementById("hintModal");
+  modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
+}
+
+// ダイヤル用：タップで数字を＋1（0〜9でループ）
+function rotateDigitByTap(index) {
+  const digitEl = document.getElementById(`digit-${index}`);
+  let current = parseInt(digitEl.innerText);
+  current = (current + 1) % 10;
+  digitEl.innerText = current;
+  updateStats();
+}

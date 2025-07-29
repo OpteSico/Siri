@@ -43,3 +43,24 @@
   font-size: 1rem;
   width: 100%;
 }
+.digit-select {
+  width: 50px;
+  height: 90px;
+  font-size: 2rem;
+  text-align: center;
+  border-radius: 10px;
+  border: none;
+  background-color: #444;
+  color: white;
+  -webkit-appearance: none;
+  appearance: none;
+  overflow-y: scroll;
+  font-weight: bold;
+}
+
+.stats-mini {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #ffca28;
+}
+

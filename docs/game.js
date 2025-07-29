@@ -1,3 +1,5 @@
+// game.js 完全版
+
 const answer = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10));
 let allHints = [];
 const npcHints = [[], [], []];
@@ -65,6 +67,13 @@ function getHint(npcNumber) {
   appendHintLog(npcNumber, hint);
 }
 
+function drawHint() {
+  const used = npcHints.flat();
+  const available = allHints.filter(h => !used.includes(h));
+  if (available.length === 0) return "もうヒントはないようだ。";
+  return available[Math.floor(Math.random() * available.length)];
+}
+
 function appendHintLog(npc, hint) {
   const logArea = document.getElementById('hintLog');
   const entry = document.createElement('div');
@@ -78,27 +87,52 @@ function submitGuess() {
     guess.push(parseInt(document.getElementById(`digit-${i}`).innerText));
   }
 
-  if (guess.every((num, i) => num === answer[i])) {
-    alert("正解！おめでとうございます！");
-    saveRanking();
-    window.location.href = 'index.html';
+  const isCorrect = guess.every((num, i) => num === answer[i]);
+  showResult(isCorrect);
+  if (isCorrect) saveRanking();
+}
+
+function showResult(success) {
+  const modal = document.getElementById('resultModal');
+  const image = document.getElementById('resultImage');
+  const message = document.getElementById('resultMessage');
+  const answerDisplay = document.getElementById('correctAnswerDisplay');
+
+  if (success) {
+    image.src = "congrats.png";
+    message.innerText = "おめでとうございます！正解です！";
+    answerDisplay.innerText = `ヒント使用数: ${inquiries}`;
   } else {
-    alert(`残念！正解は ${answer.join('')} でした。`);
-    saveRanking();
-    window.location.href = 'index.html';
+    image.src = "gameover.png";
+    message.innerText = "ゲームオーバー！";
+    answerDisplay.innerText = `正解は ${answer.join('')} でした。`;
   }
+
+  modal.style.display = 'flex';
+}
+
+function returnToMenu() {
+  document.getElementById('resultModal').style.display = 'none';
+  window.location.href = 'index.html';
 }
 
 function saveRanking() {
   const name = localStorage.getItem('playerName') || '名無しさん';
   const rankingData = JSON.parse(localStorage.getItem('ranking')) || [];
   rankingData.push({ name, inquiries });
-  localStorage.setItem('ranking', JSON.stringify(rankingData));
+  rankingData.sort((a, b) => a.inquiries - b.inquiries);
+  localStorage.setItem('ranking', JSON.stringify(rankingData.slice(0, 10)));
 }
 
 function toggleHintModal() {
   const modal = document.getElementById('hintModal');
   modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+}
+
+function openRanking() {
+  const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+  const list = ranking.map((r, i) => `${i + 1}. ${r.name} - ${r.inquiries}回`).join('\n');
+  alert("=== ランキング ===\n" + list);
 }
 
 function median(arr) {

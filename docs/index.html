@@ -35,15 +35,6 @@
       margin-bottom: 1rem;
       animation: fadeIn 2s ease;
     }
-    .skip {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 0.9rem;
-      color: #ccc;
-      cursor: pointer;
-      text-decoration: underline;
-    }
     .textbox {
       width: 90%;
       max-width: 600px;
@@ -51,10 +42,7 @@
       padding: 1rem;
       border-radius: 8px;
       font-size: 1.1rem;
-      cursor: pointer;
       text-align: center;
-      -webkit-tap-highlight-color: transparent;
-      outline: none;
       user-select: none;
     }
     .opening-image {
@@ -91,45 +79,91 @@
       transform: scale(0.98);
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
+
+    /* ランキングモーダル */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .modal-content {
+      background: #222;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 90%;
+      width: 400px;
+      text-align: center;
+    }
+    .modal-content h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .modal-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 300px;
+      overflow-y: auto;
+      text-align: left;
+    }
+    .modal-content ul li {
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #444;
+    }
+    .modal-content button {
+      margin-top: 1rem;
+    }
+
+    /* 結果モーダル */
+    .result-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 2000;
+      color: white;
+      text-align: center;
+    }
+    .result-modal img {
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+    .result-modal h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .result-modal p {
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
-  <!-- BGM 音声プレイヤー（非表示） -->
+  <!-- BGM -->
   <audio id="bgm" src="FHOP.mp3" loop preload="auto"></audio>
 
-  <!-- ミュート切替ボタン -->
-  <div id="muteToggle" onclick="toggleMute()" style="
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    font-size: 0.8rem;
-    background-color: rgba(0,0,0,0.5);
-    color: white;
-    padding: 0.3rem 0.6rem;
-    border-radius: 6px;
-    cursor: pointer;
-    z-index: 1000;
-    display: none;
-  ">
-    🔊 ON
-  </div>
-
-  <!-- オープニング画面 -->
-  <div id="introScreen" class="screen visible">
-    <div class="skip" onclick="skipToMenu()">スキップ &gt;</div>
-    <img src="kansoro.png" alt="オープニング画像" class="opening-image">
-    <div class="textbox" onclick="nextLine()" id="dialogueBox">………</div>
-  </div>
-
   <!-- メニュー画面 -->
-  <div id="menuScreen" class="screen">
+  <div id="menuScreen" class="screen visible">
     <img src="furuhata.png" alt="メニュー画像" class="opening-image">
     <button onclick="startGame()">新しく始める</button>
     <button onclick="howToPlay()">遊び方</button>
-    <button onclick="openCredits()">ランキング</button>
+    <button onclick="openRanking()">ランキング</button>
   </div>
 
-    <!-- 成功・失敗モーダル -->
+  <!-- 成功・失敗モーダル -->
   <div id="resultModal" class="result-modal">
     <img id="resultImage" src="" alt="結果画像">
     <h2 id="resultMessage"></h2>
@@ -137,6 +171,15 @@
     <button onclick="returnToMenu()">メニューへ戻る</button>
   </div>
 
-  <script src="script.js"></script>
+  <!-- ランキングモーダル -->
+  <div id="rankingModal" class="modal" onclick="closeRanking()">
+    <div class="modal-content" onclick="event.stopPropagation();">
+      <h3>🏆 ランキング 🏆</h3>
+      <ul id="rankingList"></ul>
+      <button onclick="closeRanking()">閉じる</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
 </body>
 </html>

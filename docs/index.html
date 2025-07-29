@@ -1,17 +1,118 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <title>尻穴 緩早漏</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>尻穴 緩早漏</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #0d0d0d;
+      color: white;
+      overflow: hidden;
+    }
+    .screen {
+      display: none;
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 0; left: 0;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: opacity 1s;
+    }
+    .visible {
+      display: flex;
+      opacity: 1;
+    }
+    .fade-out {
+      opacity: 0;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      animation: fadeIn 2s ease;
+    }
+    .skip {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+      color: #ccc;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .textbox {
+      width: 90%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+      user-select: none;
+    }
+    .opening-image {
+      max-width: 80%;
+      max-height: 40vh;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    button {
+      background: linear-gradient(to bottom, #ffca28, #f57c00);
+      color: #222;
+      border: none;
+      padding: 1rem 2rem;
+      margin: 0.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.3s ease;
+      width: 80%;
+      max-width: 300px;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+    button:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
   <!-- BGM 音声プレイヤー（非表示） -->
   <audio id="bgm" src="FHOP.mp3" loop preload="auto"></audio>
 
   <!-- ミュート切替ボタン -->
-  <div id="muteToggle" onclick="toggleMute()">🔊 ON</div>
+  <div id="muteToggle" onclick="toggleMute()" style="
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1000;
+    display: none;
+  ">
+    🔊 ON
+  </div>
 
   <!-- オープニング画面 -->
   <div id="introScreen" class="screen visible">
@@ -25,16 +126,9 @@
     <img src="furuhata.png" alt="メニュー画像" class="opening-image">
     <button onclick="startGame()">新しく始める</button>
     <button onclick="howToPlay()">遊び方</button>
-    <button onclick="openRanking()">ランキング</button>
+    <button onclick="openCredits()">ランキング</button>
   </div>
 
-  <!-- 成功・失敗モーダル -->
-  <div id="resultModal" class="result-modal">
-    <img id="resultImage" src="" alt="結果画像">
-    <h2 id="resultMessage"></h2>
-    <p id="correctAnswerDisplay"></p>
-    <button onclick="returnToMenu()">メニューへ戻る</button>
-Game Logic Update
-cript>
+  <script src="script.js"></script>
 </body>
 </html>

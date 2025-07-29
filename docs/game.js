@@ -27,34 +27,11 @@ function startGame() {
     document.getElementById(`npc${i + 1}Hint`).innerText = firstHint;
     appendHintLog(i + 1, firstHint);
   }
-  updateStatsDisplay();
+  updateStats();
 }
 
-function rotateDigit(event, index) {
-  event.preventDefault();
-  const delta = event.deltaY < 0 ? 1 : -1;
-  changeDigit(index, delta);
-}
-
-function changeDigit(index, delta) {
-  const digitElem = document.getElementById(`digit-${index}`);
-  let value = parseInt(digitElem.innerText);
-  value = (value + delta + 10) % 10;
-  digitElem.innerText = value;
-  digitElem.classList.remove('spin-up', 'spin-down');
-  digitElem.classList.add(delta > 0 ? 'spin-up' : 'spin-down');
-  setTimeout(() => digitElem.classList.remove('spin-up', 'spin-down'), 200);
-  updateStatsDisplay();
-}
-
-function updateStatsDisplay() {
-  const values = [];
-  for (let i = 0; i < 4; i++) {
-    values.push(parseInt(document.getElementById(`digit-${i}`).innerText));
-  }
-  const avg = (values.reduce((a, b) => a + b, 0) / 4).toFixed(1);
-  const med = median(values);
-  document.getElementById('statsDisplay').innerText = `平均: ${avg}　中央値: ${med}`;
+function drawHint() {
+  return allHints.length > 0 ? allHints.pop() : "もうヒントはありません。";
 }
 
 function getHint(npcNumber) {
@@ -67,7 +44,7 @@ function getHint(npcNumber) {
 
 function appendHintLog(npc, hint) {
   const logArea = document.getElementById('hintLog');
-  const entry = document.createElement('div');
+  const entry = document.createElement('li');
   entry.innerText = `NPC${npc}: ${hint}`;
   logArea.appendChild(entry);
 }
@@ -75,7 +52,7 @@ function appendHintLog(npc, hint) {
 function submitGuess() {
   const guess = [];
   for (let i = 0; i < 4; i++) {
-    guess.push(parseInt(document.getElementById(`digit-${i}`).innerText));
+    guess.push(parseInt(document.getElementById(`digit-${i}`).value));
   }
 
   if (guess.every((num, i) => num === answer[i])) {
@@ -96,9 +73,24 @@ function saveRanking() {
   localStorage.setItem('ranking', JSON.stringify(rankingData));
 }
 
-function toggleHintModal() {
-  const modal = document.getElementById('hintModal');
-  modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+function showHintLog() {
+  document.getElementById("hintLogModal").style.display = "flex";
+}
+
+function closeHintLog() {
+  document.getElementById("hintLogModal").style.display = "none";
+}
+
+function updateStats() {
+  const values = [];
+  for (let i = 0; i < 4; i++) {
+    const val = parseInt(document.getElementById(`digit-${i}`).value);
+    values.push(val);
+  }
+  const avg = (values.reduce((a, b) => a + b, 0) / 4).toFixed(1);
+  const med = median(values);
+  document.getElementById("avgValue").innerText = avg;
+  document.getElementById("medianValue").innerText = med;
 }
 
 function median(arr) {

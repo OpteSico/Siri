@@ -1,9 +1,8 @@
-html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>尻穴緩早漏の事件簿</title>
   <style>
     body {
@@ -14,17 +13,22 @@ html
       text-align: center;
       overflow: hidden;
     }
-    .screen { 
-      display: none; 
-      height: 100vh; 
+
+    .screen {
+      display: none;
+      height: 100vh;
       width: 100vw;
-      justify-content: center; 
-      align-items: center; 
-      flex-direction: column; 
-      opacity: 0; 
-      transition: opacity 1s ease; 
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 1s ease;
     }
-    .visible { display: flex; opacity: 1; }
+
+    .visible {
+      display: flex;
+      opacity: 1;
+    }
 
     #npcArea {
       display: grid;
@@ -33,6 +37,7 @@ html
       max-width: 90%;
       margin: 1rem auto;
     }
+
     .npc {
       background: #333;
       border-radius: 8px;
@@ -46,18 +51,26 @@ html
       justify-content: center;
       margin: 1rem 0;
     }
+
     .digit {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 0 0.5rem;
     }
-    .digit-value {
-      font-size: 2rem;
-      margin: 0.5rem 0;
+
+    .dial-digit {
+      font-size: 2.5rem;
+      padding: 0.5rem;
+      user-select: none;
       transition: transform 0.2s ease;
     }
-    .spin {
+
+    .dial-digit.spin-up {
+      transform: rotateX(-360deg);
+    }
+
+    .dial-digit.spin-down {
       transform: rotateX(360deg);
     }
 
@@ -73,28 +86,43 @@ html
       cursor: pointer;
     }
 
-    #memo { 
-      display: none; 
-      width: 95%; 
-      height: 120px; 
-      margin: 1rem auto; 
-      background: white; 
-      color: black; 
-      border-radius: 6px; 
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: #222;
+      color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 70vh;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .log-area {
+      margin-top: 0.5rem;
+      background: #333;
       padding: 0.5rem;
-      font-size: 1rem;
+      border-radius: 6px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <!-- プロローグ画面 -->
-  <div id="prologueScreen" class="screen visible">
-    <div id="prologueText" onclick="nextPrologueLine()">クリックして進む</div>
-    <div class="skip" onclick="skipPrologue()">スキップ &gt;</div>
-  </div>
-
-  <!-- 名前入力画面 -->
-  <div id="nameScreen" class="screen">
+  <!-- 名前入力 -->
+  <div id="nameScreen" class="screen visible">
     <h2>プレイヤー名を入力</h2>
     <input type="text" id="playerName">
     <button onclick="saveName(); startGame();">決定</button>
@@ -108,67 +136,29 @@ html
       <div class="npc"><p id="npc2Hint"></p><button onclick="getHint(2)">聞き込み</button></div>
       <div class="npc"><p id="npc3Hint"></p><button onclick="getHint(3)">聞き込み</button></div>
     </div>
+
     <div class="lock-container" id="lock">
-      <!-- 4つの数字 -->
-      <div class="digit">
-        <button onclick="changeDigit(0, 1)">▲</button>
-        <div class="digit-value" id="digit-0">0</div>
-        <button onclick="changeDigit(0, -1)">▼</button>
-      </div>
-      <div class="digit">
-        <button onclick="changeDigit(1, 1)">▲</button>
-        <div class="digit-value" id="digit-1">0</div>
-        <button onclick="changeDigit(1, -1)">▼</button>
-      </div>
-      <div class="digit">
-        <button onclick="changeDigit(2, 1)">▲</button>
-        <div class="digit-value" id="digit-2">0</div>
-        <button onclick="changeDigit(2, -1)">▼</button>
-      </div>
-      <div class="digit">
-        <button onclick="changeDigit(3, 1)">▲</button>
-        <div class="digit-value" id="digit-3">0</div>
-        <button onclick="changeDigit(3, -1)">▼</button>
-      </div>
+      <div class="digit" onwheel="rotateDigit(event, 0)"><div class="dial-digit" id="digit-0">0</div></div>
+      <div class="digit" onwheel="rotateDigit(event, 1)"><div class="dial-digit" id="digit-1">0</div></div>
+      <div class="digit" onwheel="rotateDigit(event, 2)"><div class="dial-digit" id="digit-2">0</div></div>
+      <div class="digit" onwheel="rotateDigit(event, 3)"><div class="dial-digit" id="digit-3">0</div></div>
     </div>
+
+    <div id="statsDisplay" style="margin: 1rem 0; font-size: 1.1rem;"></div>
+
     <button onclick="submitGuess()">提出</button>
-    <button onclick="toggleMemo()">メモ</button>
-    <textarea id="memo" placeholder="メモ..."></textarea>
+    <button onclick="toggleHintModal()">ヒントログ</button>
+  </div>
+
+  <!-- ヒントログモーダル -->
+  <div id="hintModal" class="modal">
+    <div class="modal-content">
+      <h3>ヒントログ</h3>
+      <div id="hintLog" class="log-area"></div>
+      <button onclick="toggleHintModal()">閉じる</button>
+    </div>
   </div>
 
   <script src="game.js"></script>
-  <script>
-    const prologueLines = [
-      "……",
-      "えー……夜分にすみません……",
-      "皆さんにお集まり頂いたのは…4桁の暗号を解くためなんです…",
-      "私の部下であるこの巡査が",
-      "今から聞き込み致しますので…しばしお付き合いを…"
-    ];
-    let prologueIndex = 0;
-
-    function nextPrologueLine() {
-      const box = document.getElementById('prologueText');
-      if (prologueIndex < prologueLines.length) {
-        box.innerText = prologueLines[prologueIndex++];
-      } else {
-        endPrologue();
-      }
-    }
-    function skipPrologue() { endPrologue(); }
-    function endPrologue() {
-      document.getElementById('prologueScreen').classList.remove('visible');
-      document.getElementById('nameScreen').classList.add('visible');
-    }
-
-    function changeDigit(index, delta) {
-      const digitElem = document.getElementById(digit-${index});
-      let value = parseInt(digitElem.innerText);
-      value = (value + delta + 10) % 10;
-      digitElem.innerText = value;
-      digitElem.classList.add('spin');
-      setTimeout(() => digitElem.classList.remove('spin'), 200);
-    }
-  </script>
 </body>
 </html>

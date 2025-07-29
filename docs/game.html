@@ -140,26 +140,67 @@
 
 <div class="lock-container" id="lock">
   <div class="digit">
-    <button onclick="rotateDigit(0, -1)">▲</button>
-    <div class="dial-digit" id="digit-0">0</div>
-    <button onclick="rotateDigit(0, 1)">▼</button>
+    <select id="digit-0" onchange="updateStats()" class="digit-select">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
   </div>
   <div class="digit">
-    <button onclick="rotateDigit(1, -1)">▲</button>
-    <div class="dial-digit" id="digit-1">0</div>
-    <button onclick="rotateDigit(1, 1)">▼</button>
+    <select id="digit-1" onchange="updateStats()" class="digit-select">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
   </div>
   <div class="digit">
-    <button onclick="rotateDigit(2, -1)">▲</button>
-    <div class="dial-digit" id="digit-2">0</div>
-    <button onclick="rotateDigit(2, 1)">▼</button>
+    <select id="digit-2" onchange="updateStats()" class="digit-select">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
   </div>
   <div class="digit">
-    <button onclick="rotateDigit(3, -1)">▲</button>
-    <div class="dial-digit" id="digit-3">0</div>
-    <button onclick="rotateDigit(3, 1)">▼</button>
+    <select id="digit-3" onchange="updateStats()" class="digit-select">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+    </select>
   </div>
 </div>
+
+<div id="statsDisplay" class="stats-mini">
+  平均: <span id="avgValue">0.0</span> / 中央: <span id="medianValue">0</span>
+</div>
+
 
 
     <div id="statsDisplay" style="margin: 1rem 0; font-size: 1.1rem;"></div>

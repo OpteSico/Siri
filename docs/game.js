@@ -6,7 +6,13 @@ let inquiries = 0;
 document.addEventListener('DOMContentLoaded', () => {
   const savedName = localStorage.getItem('playerName') || '';
   document.getElementById('playerName').value = savedName;
+
+  // ダイヤルにスワイプ検出を追加
+  for (let i = 0; i < 4; i++) {
+    enableSwipe(`digit-${i}`, i);
+  }
 });
+
 
 function saveName() {
   const name = document.getElementById('playerName').value.trim();
@@ -145,3 +151,25 @@ function rotateDigitByTap(index) {
   digitEl.innerText = current;
   updateStats();
 }
+function enableSwipe(id, index) {
+  const el = document.getElementById(id);
+  let startY = 0;
+
+  el.addEventListener('touchstart', (e) => {
+    startY = e.touches[0].clientY;
+  });
+
+  el.addEventListener('touchend', (e) => {
+    const endY = e.changedTouches[0].clientY;
+    const deltaY = endY - startY;
+
+    if (Math.abs(deltaY) > 30) { // スワイプ距離の閾値
+      if (deltaY < 0) {
+        rotateDigit(index, 1); // 下にスワイプ → 次の数字
+      } else {
+        rotateDigit(index, -1); // 上にスワイプ → 前の数字
+      }
+    }
+  });
+}
+

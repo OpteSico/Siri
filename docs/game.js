@@ -136,15 +136,6 @@ function generateHints(ans) {
   const min = Math.min(...ans);
   const med = median(ans);
 
-  function getDuplicateCount(arr) {
-  const counts = {};
-  for (let num of arr) {
-    counts[num] = (counts[num] || 0) + 1;
-  }
-  return Object.values(counts).filter(count => count > 1).length;
-}
-
-
   const hints = [
 
   `1桁目は${a % 2 === 0 ? '偶数' : '奇数'}`,
@@ -180,8 +171,6 @@ function generateHints(ans) {
 
   `最初の3桁の和は${a + b + c}`,
   `後ろの3桁の和は${b + c + d}`,
-
-  `同じ数字は${getDuplicateCount([a, b, c, d]) > 1 ? getDuplicateCount([a, b, c, d]) + 'つ' : 'ない'}`,
   ];
   return shuffle(hints).slice(0, 25);
 }

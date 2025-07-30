@@ -167,7 +167,7 @@ function generateHints(ans) {
   `1桁目と3桁目の差は${Math.abs(a - c)}`,
   `2桁目と4桁目の差は${Math.abs(b - d)}`,
 
-  `数字の中央値は${med}`
+  `数字の中央値は${med}`,
 
   `最初の3桁の和は${a + b + c}`,
   `後ろの3桁の和は${b + c + d}`,

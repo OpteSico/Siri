@@ -61,3 +61,9 @@
     text-align: center;
   }
 }
+.npcName {
+  font-size: 0.8rem; /* お好みのサイズに調整してください */
+  margin: 0; /* 必要に応じて余白も調整 */
+  font-weight: bold; /* もし名前を少し目立たせたいなら */
+}
+

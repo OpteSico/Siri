@@ -181,7 +181,7 @@ function generateHints(ans) {
   `最初の3桁の和は${a + b + c}`,
   `後ろの3桁の和は${b + c + d}`,
 
-  `同じ数字は${getDuplicateCount([a, b, c, d]) > 1 ? getDuplicateCount([a, b, c, d]) + 'つ' : 'ない'}。`,
+  `同じ数字は${getDuplicateCount([a, b, c, d]) > 1 ? getDuplicateCount([a, b, c, d]) + 'つ' : 'ない'}`,
   ];
   return shuffle(hints).slice(0, 25);
 }

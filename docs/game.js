@@ -166,7 +166,7 @@ function generateHints(ans) {
   `偶数は${[a, b, c, d].filter(n => n % 2 === 0).length}つ含まれている`,
   `奇数は${[a, b, c, d].filter(n => n % 2 !== 0).length}つ含まれている`,
 
-  `同じ数字は${new Set([a, b, c, d]).size < 4 ? '含まれている' : '含まれていない'}。`,
+  `同じ数字は${new Set([a, b, c, d]).size < 4 ? '含まれている' : '含まれていない'}`,
 
   `1桁目 + 2桁目 = ${a + b}`,
   `3桁目 + 4桁目 = ${c + d}`,

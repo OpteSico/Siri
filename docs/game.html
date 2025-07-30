@@ -39,13 +39,30 @@
       margin: 1rem auto;
     }
 
-    .npc {
-      background: #333;
-      border-radius: 8px;
-      padding: 0.5rem;
-      font-size: 0.9rem;
-      min-height: 60px;
-    }
+.npc {
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  min-height: 60px;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 個別背景 */
+.npc-a {
+  background-image: url('npc_a.jpg');
+}
+
+.npc-b {
+  background-image: url('npc_b.jpg');
+}
+
+.npc-c {
+  background-image: url('npc_c.jpg');
+}
+
 
     .lock-container {
       display: flex;
@@ -132,9 +149,9 @@
   <!-- ゲーム画面 -->
   <div id="gameScreen" class="screen">
     <div id="npcArea">
-      <div class="npc"><p class="npcName">糞尿マン</p><p id="npc1Hint"></p><button onclick="getHint(1, 'スカ')">聞く</button></div>
-      <div class="npc"><p class="npcName">田中ゲイ♂</p><p id="npc2Hint"></p><button onclick="getHint(2, 'マラ')">聞く</button></div>
-      <div class="npc"><p class="npcName">飯田亘</p><p id="npc3Hint"></p><button onclick="getHint(3, 'だわさ')">聞く</button></div>
+      <div class="npc npc-a"><p class="npcName">糞尿マン</p><p id="npc1Hint"></p><button onclick="getHint(1, 'スカ')">聞く</button></div>
+      <div class="npc npc-b"><p class="npcName">田中ゲイ♂</p><p id="npc2Hint"></p><button onclick="getHint(2, 'マラ')">聞く</button></div>
+      <div class="npc npc-c"><p class="npcName">飯田亘</p><p id="npc3Hint"></p><button onclick="getHint(3, 'だわさ')">聞く</button></div>
     </div>
 
 <div class="lock-container" id="lock">

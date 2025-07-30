@@ -38,7 +38,7 @@ function startGame() {
 }
 
 function drawHint() {
-  return allHints.length > 0 ? allHints.pop() : "もうヒントはありません。";
+  return allHints.length > 0 ? allHints.pop() : "もう知ってることはない";
 }
 
 function getHint(npcNumber, suffix = '') {
@@ -135,6 +135,15 @@ function generateHints(ans) {
   const max = Math.max(...ans);
   const min = Math.min(...ans);
   const med = median(ans);
+
+  function getDuplicateCount(arr) {
+  const counts = {};
+  for (let num of arr) {
+    counts[num] = (counts[num] || 0) + 1;
+  }
+  return Object.values(counts).filter(count => count > 1).length;
+}
+
 
   const hints = [
 

@@ -41,13 +41,15 @@ function drawHint() {
   return allHints.length > 0 ? allHints.pop() : "もうヒントはありません。";
 }
 
-function getHint(npcNumber) {
+function getHint(npcNumber, suffix = '') {
   const hint = drawHint();
-  npcHints[npcNumber - 1].push(hint);
-  document.getElementById(`npc${npcNumber}Hint`).innerText = hint;
+  const fullHint = hint + suffix;
+  npcHints[npcNumber - 1].push(fullHint);
+  document.getElementById(`npc${npcNumber}Hint`).innerText = fullHint;
   inquiries++;
-  appendHintLog(npcNumber, hint);
+  appendHintLog(npcNumber, fullHint);
 }
+
 
 function appendHintLog(npc, hint) {
   const list = document.getElementById('hintList');
@@ -136,41 +138,41 @@ function generateHints(ans) {
 
   const hints = [
 
-  `1桁目は${a % 2 === 0 ? '偶数' : '奇数'}です。`,
-  `2桁目は${b % 2 === 0 ? '偶数' : '奇数'}です。`,
-  `3桁目は${c % 2 === 0 ? '偶数' : '奇数'}です。`,
-  `4桁目は${d % 2 === 0 ? '偶数' : '奇数'}です。`,
+  `1桁目は${a % 2 === 0 ? '偶数' : '奇数'}`,
+  `2桁目は${b % 2 === 0 ? '偶数' : '奇数'}`,
+  `3桁目は${c % 2 === 0 ? '偶数' : '奇数'}`,
+  `4桁目は${d % 2 === 0 ? '偶数' : '奇数'}`,
     
-  `1桁目は${a < 4 ? '0～3' : a < 7 ? '4～6' : '7～9'}のいずれかです。`,
-　`2桁目は${b < 4 ? '0～3' : b < 7 ? '4～6' : '7～9'}のいずれかです。`,
-  `3桁目は${c < 4 ? '0～3' : c < 7 ? '4～6' : '7～9'}のいずれかです。`,
-  `4桁目は${d < 4 ? '0～3' : d < 7 ? '4～6' : '7～9'}のいずれかです。`,
+  `1桁目は${a < 4 ? '0～3' : a < 7 ? '4～6' : '7～9'}のいずれか`,
+　`2桁目は${b < 4 ? '0～3' : b < 7 ? '4～6' : '7～9'}のいずれか`,
+  `3桁目は${c < 4 ? '0～3' : c < 7 ? '4～6' : '7～9'}のいずれか`,
+  `4桁目は${d < 4 ? '0～3' : d < 7 ? '4～6' : '7～9'}のいずれか`,
 
-  `4桁の合計は${a + b + c + d}です。`,
-  `数字の平均は${((a + b + c + d) / 4).toFixed(1)}です。`,
-  `最大の数字は${Math.max(a, b, c, d)}です。`,
-  `最小の数字は${Math.min(a, b, c, d)}です。`,
-  `最大と最小の差は${Math.max(a, b, c, d) - Math.min(a, b, c, d)}です。`,
+  `4桁の合計は${a + b + c + d}`,
+  `数字の平均は${((a + b + c + d) / 4).toFixed(1)}`,
+  `最大の数字は${Math.max(a, b, c, d)}`,
+  `最小の数字は${Math.min(a, b, c, d)}`,
+  `最大と最小の差は${Math.max(a, b, c, d) - Math.min(a, b, c, d)}`,
 
-  `偶数は${[a, b, c, d].filter(n => n % 2 === 0).length}つ含まれています。`,
-  `奇数は${[a, b, c, d].filter(n => n % 2 !== 0).length}つ含まれています。`,
+  `偶数は${[a, b, c, d].filter(n => n % 2 === 0).length}つ含まれている`,
+  `奇数は${[a, b, c, d].filter(n => n % 2 !== 0).length}つ含まれている`,
 
-  `同じ数字は${new Set([a, b, c, d]).size < 4 ? '含まれています' : '含まれていません'}。`,
+  `同じ数字は${new Set([a, b, c, d]).size < 4 ? '含まれている' : '含まれていない'}。`,
 
-  `1桁目 + 2桁目 = ${a + b}です。`,
-  `3桁目 + 4桁目 = ${c + d}です。`,
-  `1桁目 + 3桁目 = ${a + c}です。`,
-  `2桁目 + 4桁目 = ${b + d}です。`,
+  `1桁目 + 2桁目 = ${a + b}`,
+  `3桁目 + 4桁目 = ${c + d}`,
+  `1桁目 + 3桁目 = ${a + c}`,
+  `2桁目 + 4桁目 = ${b + d}`,
 
-  `1桁目と3桁目の差は${Math.abs(a - c)}です。`,
-  `2桁目と4桁目の差は${Math.abs(b - d)}です。`,
+  `1桁目と3桁目の差は${Math.abs(a - c)}`,
+  `2桁目と4桁目の差は${Math.abs(b - d)}`,
 
-  `数字の中央値は${med}です。`
+  `数字の中央値は${med}`
 
-  `最初の3桁の和は${a + b + c}です。`,
-  `後ろの3桁の和は${b + c + d}です。`,
+  `最初の3桁の和は${a + b + c}`,
+  `後ろの3桁の和は${b + c + d}`,
 
-  `同じ数字は${getDuplicateCount([a, b, c, d]) > 1 ? getDuplicateCount([a, b, c, d]) + 'つ' : 'ありません'}。`,
+  `同じ数字は${getDuplicateCount([a, b, c, d]) > 1 ? getDuplicateCount([a, b, c, d]) + 'つ' : 'ない'}。`,
   ];
   return shuffle(hints).slice(0, 25);
 }
